@@ -46,7 +46,7 @@ inline int min(int lhs, int rhs) { return (rhs < lhs) ? rhs : lhs; }
 #include <structmember.h>
 #include <bytesobject.h>
 
-#if defined(__CYGWIN__) || defined(__MINGW32__)
+#ifdef __CYGWIN__
 #include <windows.h>
 #endif
 

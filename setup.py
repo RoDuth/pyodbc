@@ -84,11 +84,15 @@ def get_compiler_settings():
     }
 
     if 'mingw' in sysconfig.get_platform():
-        # Windows mingw (note that os.name == 'nt' is True)
+        # Windows MinGW NOTE os.name = 'nt' and output from
+        # `odbc_config --cflags --libs` does not work as expected, excluding
+        # C:/msys64/ from begining of paths
         settings['extra_compile_args'].extend([
             '-Wno-write-strings',
         ])
-        settings['libraries'].append('odbc32')
+        unixodbc_headers = os.getenv("MSYSTEM_PREFIX") + "/include/unixodbc"
+        settings['include_dirs'] = [unixodbc_headers]
+        settings['libraries'].append('odbc')
 
     elif os.name == 'nt':
         settings['extra_compile_args'].extend([
